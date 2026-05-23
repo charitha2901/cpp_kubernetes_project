@@ -1,0 +1,19 @@
+Start testing: May 23 21:14 India Standard Time
+----------------------------------------------------------
+Test not available without configuration.  (Missing "-C <config>"?)
+1/1 Testing: CalculatorTests
+1/1 Test: CalculatorTests
+Command: "NOT_AVAILABLE"
+Directory: D:/C++_Kubernetes_Project/C++_Kubernetes/build/build
+"CalculatorTests" start time: 
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"CalculatorTests" end time: May 23 21:14 India Standard Time
+"CalculatorTests" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: May 23 21:14 India Standard Time

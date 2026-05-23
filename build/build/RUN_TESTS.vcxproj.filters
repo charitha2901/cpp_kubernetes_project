@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="18.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\C++_Kubernetes_Project\C++_Kubernetes\build\build\CMakeFiles\99ab3abf5d2f734d91f21851272db18d\RUN_TESTS_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{D95C58A0-992C-31F8-B9F6-FBDB17074871}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
