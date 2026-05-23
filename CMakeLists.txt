@@ -15,7 +15,7 @@ FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 
-add_executable(app src/main.cpp)
+add_executable(app main.cpp)
 
 add_executable(unit_tests tests/test_main.cpp)
 
