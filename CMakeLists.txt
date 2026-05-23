@@ -1,21 +1,26 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(CalculatorProject)
+project(CppKubernetesProject)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_library(calculator src/calculator.cpp)
+include(FetchContent)
 
-add_executable(app main.cpp)
+FetchContent_Declare(
+  googletest
+  URL https://github.com/google/googletest/archive/refs/heads/main.zip
+)
 
-target_link_libraries(app calculator)
+FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 
-find_package(GTest REQUIRED)
+add_executable(app src/main.cpp)
 
-add_executable(runTests tests/test_calculator.cpp)
+add_executable(unit_tests tests/test_main.cpp)
 
-target_link_libraries(runTests calculator GTest::GTest GTest::Main)
+target_link_libraries(unit_tests gtest_main)
 
-add_test(NAME CalculatorTests COMMAND runTests)
+include(GoogleTest)
+
+gtest_discover_tests(unit_tests)

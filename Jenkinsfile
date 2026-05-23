@@ -19,10 +19,11 @@ pipeline {
         stage('Build C++ Application') {
             steps {
                 bat '''
+                if exist build rmdir /s /q build
                 mkdir build
                 cd build
-                cmake ..
-                cmake --build .
+                cmake -G "Visual Studio 17 2022" ..
+                cmake --build . --config Release
                 '''
             }
         }
