@@ -1,20 +1,22 @@
 pipeline {
-
     agent any
 
     environment {
-        IMAGE_NAME = "username/cpp-cicd-app"
+        DOCKER_IMAGE = "charitha2901/cpp-kubernetes-project"
+        DOCKER_TAG = "latest"
     }
 
     stages {
 
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/username/cpp-k8s-cicd.git'
+                git branch: 'main',
+                    credentialsId: 'github-creds',
+                    url: 'https://github.com/charitha2901/cpp_kubernetes_project.git'
             }
         }
 
-        stage('Build Application') {
+        stage('Build C++ Application') {
             steps {
                 bat '''
                 mkdir build
@@ -36,30 +38,52 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                bat 'docker build -t %IMAGE_NAME%:v1 .'
+                bat """
+                docker build -t %DOCKER_IMAGE%:%DOCKER_TAG% .
+                """
+            }
+        }
+
+        stage('Docker Login') {
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: 'dockerhub-creds',
+                    usernameVariable: 'DOCKER_USER',
+                    passwordVariable: 'DOCKER_PASS'
+                )]) {
+
+                    bat '''
+                    echo %DOCKER_PASS% | docker login -u %DOCKER_USER% --password-stdin
+                    '''
+                }
             }
         }
 
         stage('Push Docker Image') {
             steps {
-
-                withCredentials([usernamePassword(
-                    credentialsId: 'dockerhub',
-                    usernameVariable: 'DOCKER_USER',
-                    passwordVariable: 'DOCKER_PASS'
-                )]) {
-
-                    bat 'docker login -u %DOCKER_USER% -p %DOCKER_PASS%'
-                    bat 'docker push %IMAGE_NAME%:v1'
-                }
+                bat """
+                docker push %DOCKER_IMAGE%:%DOCKER_TAG%
+                """
             }
         }
 
         stage('Deploy to Kubernetes') {
             steps {
-                bat 'kubectl apply -f deployment.yaml'
-                bat 'kubectl apply -f service.yaml'
+                bat '''
+                kubectl apply -f k8s/deployment.yaml
+                kubectl apply -f k8s/service.yaml
+                '''
             }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline executed successfully!'
+        }
+
+        failure {
+            echo 'Pipeline failed!'
         }
     }
 }
