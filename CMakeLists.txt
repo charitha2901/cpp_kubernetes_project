@@ -17,7 +17,7 @@ enable_testing()
 
 add_executable(app main.cpp)
 
-add_executable(unit_tests tests/test_main.cpp)
+add_executable(unit_tests tests/test_calculator.cpp)
 
 target_link_libraries(unit_tests gtest_main)
 
