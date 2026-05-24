@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = "charitha2901/cpp-kubernetes-project"
+        DOCKER_IMAGE = "charitha29/cpp-kubernetes-project"
         DOCKER_TAG = "latest"
     }
 
