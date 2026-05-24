@@ -4,6 +4,7 @@ pipeline {
     environment {
         DOCKER_IMAGE = "charitha29/cpp-kubernetes-project"
         DOCKER_TAG = "latest"
+        KUBECONFIG = "${WORKSPACE}/kubeconfig"
     }
 
     stages {
