@@ -4,7 +4,6 @@ pipeline {
     environment {
         DOCKER_IMAGE = "charitha29/cpp-kubernetes-project"
         DOCKER_TAG = "latest"
-        KUBECONFIG = "${WORKSPACE}/kubeconfig"
     }
 
     stages {
@@ -72,14 +71,30 @@ pipeline {
 
         stage('Deploy to Kubernetes') {
             steps {
+                withCredentials([file(credentialsId: 'kubeconfig-id', variable: 'KUBECONFIG')]) {
+                    bat '''
+                    echo Checking cluster...
+                    kubectl config view
+                    kubectl cluster-info
+        
+                    echo Deploying...
+                    kubectl apply -f k8s/deployment.yaml
+                    kubectl apply -f k8s/service.yaml
+                    '''
+                }
+            }
+        }
+        stage('Debug'){
+            steps{
                 bat '''
+                echo KUBECONFIG=%KUBECONFIG%
+                type %KUBECONFIG%
                 kubectl config view
                 kubectl cluster-info
-                kubectl apply -f k8s/deployment.yaml
-                kubectl apply -f k8s/service.yaml
                 '''
             }
         }
+}
     }
 
     post {
