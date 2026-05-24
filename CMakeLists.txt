@@ -19,12 +19,12 @@ enable_testing()
 
 add_executable(app
     main.cpp
-    src/Calculator.cpp
+    src/calculator.cpp
 )
 
 add_executable(unit_tests
     tests/test_calculator.cpp
-    src/Calculator.cpp
+    src/calculator.cpp
 )
 
 target_link_libraries(unit_tests gtest_main)
