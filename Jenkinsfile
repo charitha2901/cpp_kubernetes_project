@@ -69,6 +69,17 @@ pipeline {
             }
         }
 
+        stage('Debug kubeconfig') {
+            steps {
+                bat '''
+                echo ===== KUBECONFIG =====
+                echo %KUBECONFIG%
+                echo ===== FILE CONTENT =====
+                type %KUBECONFIG%
+                '''
+            }
+        }
+
         stage('Deploy to Kubernetes') {
             steps {
                 withCredentials([file(credentialsId: 'kubeconfig-id', variable: 'KUBECONFIG')]) {
