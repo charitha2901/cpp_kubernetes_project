@@ -84,17 +84,19 @@ pipeline {
             steps {
                 withCredentials([file(credentialsId: 'kubeconfig-id', variable: 'KUBECONFIG')]) {
                     bat '''
-                    echo Checking cluster...
+                    echo KUBECONFIG=%KUBECONFIG%
+                    type %KUBECONFIG%
+        
                     kubectl config view
                     kubectl cluster-info
         
-                    echo Deploying...
                     kubectl apply -f k8s/deployment.yaml
                     kubectl apply -f k8s/service.yaml
                     '''
                 }
             }
         }
+        
         stage('Debug'){
             steps{
                 bat '''
