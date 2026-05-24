@@ -73,6 +73,8 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 bat '''
+                kubectl config view
+                kubectl cluster-info
                 kubectl apply -f k8s/deployment.yaml
                 kubectl apply -f k8s/service.yaml
                 '''
