@@ -69,42 +69,32 @@ pipeline {
             }
         }
 
-        stage('Debug kubeconfig') {
-            steps {
-                bat '''
-                echo ===== KUBECONFIG =====
-                echo %KUBECONFIG%
-                echo ===== FILE CONTENT =====
-                type %KUBECONFIG%
-                '''
-            }
-        }
-
         stage('Deploy to Kubernetes') {
             steps {
-                withCredentials([file(credentialsId: 'kubeconfig-id', variable: 'KUBECONFIG')]) {
-                    bat '''
-                    echo KUBECONFIG=%KUBECONFIG%
-                    type %KUBECONFIG%
         
-                    kubectl config view
-                    kubectl cluster-info
+                withCredentials([
+                    file(
+                        credentialsId: 'kubeconfig-id',
+                        variable: 'KCFG')]) {
         
-                    kubectl apply -f k8s/deployment.yaml
-                    kubectl apply -f k8s/service.yaml
-                    '''
+                    bat """
+                    echo KCFG=%KCFG%
+        
+                    if exist "%KCFG%" (
+                        echo File exists
+                    ) else (
+                        echo File NOT found
+                    )
+        
+                    type "%KCFG%"
+        
+                    kubectl --kubeconfig="%KCFG%" config view
+                    kubectl --kubeconfig="%KCFG%" cluster-info
+        
+                    kubectl --kubeconfig="%KCFG%" apply -f k8s/deployment.yaml
+                    kubectl --kubeconfig="%KCFG%" apply -f k8s/service.yaml
+                    """
                 }
-            }
-        }
-        
-        stage('Debug'){
-            steps{
-                bat '''
-                echo KUBECONFIG=%KUBECONFIG%
-                type %KUBECONFIG%
-                kubectl config view
-                kubectl cluster-info
-                '''
             }
         }
 }
