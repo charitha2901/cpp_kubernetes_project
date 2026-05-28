@@ -19,7 +19,7 @@ enable_testing()
 
 add_executable(app
     main.cpp
-    src/sever_monitor.cpp
+    src/server_monitor.cpp
 )
 
 add_executable(unit_tests
